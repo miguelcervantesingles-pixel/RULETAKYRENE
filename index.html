@@ -19,7 +19,7 @@ body {
     overflow-x: hidden;
 }
 
-/* ─── SIGNS DE PREGUNTA VOLADORES ─── */
+/* ─── SIGNOS DE PREGUNTA VOLADORES ─── */
 .qmark-bg {
     position: fixed;
     top: 0; left: 0; right: 0; bottom: 0;
@@ -34,13 +34,14 @@ body {
     opacity: 0.18;
     animation: floatQ linear infinite;
     user-select: none;
+    filter: drop-shadow(0 0 4px rgba(255,255,255,0.05));
 }
 
 @keyframes floatQ {
     0%   { transform: translateY(0) rotate(0deg) scale(1); opacity: 0.08; }
-    25%  { transform: translateY(-30vh) rotate(90deg) scale(1.2); opacity: 0.20; }
+    25%  { transform: translateY(-30vh) rotate(90deg) scale(1.2); opacity: 0.22; }
     50%  { transform: translateY(-60vh) rotate(180deg) scale(0.9); opacity: 0.14; }
-    75%  { transform: translateY(-85vh) rotate(270deg) scale(1.1); opacity: 0.22; }
+    75%  { transform: translateY(-85vh) rotate(270deg) scale(1.1); opacity: 0.25; }
     100% { transform: translateY(-110vh) rotate(360deg) scale(1); opacity: 0.06; }
 }
 
@@ -63,9 +64,7 @@ h1#mainTitle {
     margin-bottom: 2px;
     min-height: 38px;
 }
-h1#mainTitle span {
-    display: inline-block;
-}
+h1#mainTitle span { display: inline-block; }
 
 .color-bar {
     display: flex;
@@ -87,7 +86,6 @@ h1#mainTitle span {
     margin-bottom: 20px;
 }
 
-/* ─── Contador ─── */
 .question-counter {
     text-align: center;
     font-size: 14px;
@@ -123,7 +121,6 @@ h1#mainTitle span {
     transform: rotateX(1deg);
 }
 
-/* Shading lateral del cilindro */
 .tube-container::before {
     content: '';
     position: absolute;
@@ -153,7 +150,6 @@ h1#mainTitle span {
     background: linear-gradient(180deg, #22223a 0%, #2a2a48 40%, #22223a 100%);
 }
 
-/* Internal gradient for cylinder curvature simulation */
 .tube-track::after {
     content: '';
     position: absolute;
@@ -238,7 +234,6 @@ h1#mainTitle span {
     100% { transform: translateY(-22px); opacity: 0.1; filter: blur(1px); }
 }
 
-/* Glow pulse en cada celda */
 .tube-cell.glow-spin {
     animation: cellGlow 0.15s infinite alternate;
 }
@@ -393,9 +388,7 @@ h1#mainTitle span {
     transition: all 0.2s;
     cursor: default;
 }
-.fila-card:not(.disabled) {
-    cursor: pointer;
-}
+.fila-card:not(.disabled) { cursor: pointer; }
 .fila-card:not(.disabled):hover {
     border-color: #ffd700;
     transform: translateY(-2px) scale(1.02);
@@ -497,7 +490,6 @@ h1#mainTitle span {
 }
 
 .modal-icon { font-size: 60px; margin-bottom: 6px; }
-
 .modal-title {
     font-size: 14px;
     color: #8a7a5a;
@@ -505,20 +497,8 @@ h1#mainTitle span {
     letter-spacing: 4px;
     font-weight: 600;
 }
-
-.modal-fila {
-    font-size: 72px;
-    font-weight: 900;
-    color: #1a5c2e;
-    margin: 4px 0;
-}
-
-.modal-puntos {
-    font-size: 28px;
-    font-weight: 700;
-    color: #ce1126;
-    margin-bottom: 8px;
-}
+.modal-fila { font-size: 72px; font-weight: 900; color: #1a5c2e; margin: 4px 0; }
+.modal-puntos { font-size: 28px; font-weight: 700; color: #ce1126; margin-bottom: 8px; }
 
 .modal-close {
     background: #1a5c2e;
@@ -574,249 +554,199 @@ h1#mainTitle span {
 </head>
 <body>
 
-<!-- FONDO: signos de pregunta voladores -->
 <div class="qmark-bg" id="qmarkBg"></div>
 
 <div class="game-container">
-    <h1 id="mainTitle">🇲🇽 RULETA DE <span>PREGUNTAS</span></h1>
+    <h1 id="mainTitle">🇲🇽 RULETA DE PREGUNTAS</h1>
     <div class="color-bar" id="colorBar"></div>
-    <div class="subtitle">Morena · Historia de México</div>
+    <div class="subtitle">Morena · Historia de M&eacute;xico</div>
 
-    <!-- Contador -->
     <div class="question-counter">
         Pregunta <span id="contador">0 / 7</span>
     </div>
 
-    <!-- TUBO CILÍNDRICO ─── 3 partes giratorias -->
+    <!-- TUBO CILÍNDRICO -->
     <div class="tube-wrapper">
         <div class="tube-container">
             <div class="tube-track" id="tubeTrack">
                 <div class="tube-cell" id="col1">
-                    <span class="cell-label">✦ 1</span>
-                    <span class="cell-content" id="col1text">❓</span>
+                    <span class="cell-label">&diams; 1</span>
+                    <span class="cell-content" id="col1text">?</span>
                 </div>
                 <div class="tube-cell" id="col2">
-                    <span class="cell-label">✦ 2</span>
-                    <span class="cell-content" id="col2text">❓</span>
+                    <span class="cell-label">&diams; 2</span>
+                    <span class="cell-content" id="col2text">?</span>
                 </div>
                 <div class="tube-cell" id="col3">
-                    <span class="cell-label">✦ 3</span>
-                    <span class="cell-content" id="col3text">❓</span>
+                    <span class="cell-label">&diams; 3</span>
+                    <span class="cell-content" id="col3text">?</span>
                 </div>
             </div>
             <div class="tube-glow" id="tubeGlow"></div>
         </div>
     </div>
 
-    <!-- Botón Girar -->
     <div class="btn-spin-wrapper">
-        <button class="btn-spin" id="btnGirar" onclick="girar()">🎲 Girar</button>
+        <button class="btn-spin" id="btnGirar" onclick="girar()">&#x1f3b2; Girar</button>
     </div>
 
-    <!-- Pregunta completa -->
     <div class="pregunta-box" id="preguntaBox">
-        <div class="pregunta-label">📌 Pregunta</div>
-        <div class="pregunta-texto placeholder" id="preguntaTexto">Presiona "Girar" para comenzar</div>
+        <div class="pregunta-label">&#x1f4cc; Pregunta</div>
+        <div class="pregunta-texto placeholder" id="preguntaTexto">Presiona &quot;Girar&quot; para comenzar</div>
     </div>
 
-    <!-- Respuesta -->
     <div class="respuesta-area">
-        <button class="btn-respuesta" id="btnRespuesta" onclick="mostrarRespuesta()" disabled>📖 Mostrar Respuesta</button>
-        <div class="respuesta-texto" id="respuestaTexto">—</div>
+        <button class="btn-respuesta" id="btnRespuesta" onclick="mostrarRespuesta()" disabled>&#x1f4d6; Mostrar Respuesta</button>
+        <div class="respuesta-texto" id="respuestaTexto">&mdash;</div>
     </div>
 
-    <!-- Filas -->
     <div class="filas-grid" id="filasGrid">
         <div class="fila-card" id="fila1">
-            <div class="fila-numero">📋 Fila 1</div>
+            <div class="fila-numero">&#x1f4cb; Fila 1</div>
             <div class="fila-puntos"><span id="pts1">0</span> pts</div>
             <button class="fila-btn" id="btnFila1" onclick="agregarPuntos(1)" disabled>+10 acierto</button>
         </div>
         <div class="fila-card" id="fila2">
-            <div class="fila-numero">📋 Fila 2</div>
+            <div class="fila-numero">&#x1f4cb; Fila 2</div>
             <div class="fila-puntos"><span id="pts2">0</span> pts</div>
             <button class="fila-btn" id="btnFila2" onclick="agregarPuntos(2)" disabled>+10 acierto</button>
         </div>
         <div class="fila-card" id="fila3">
-            <div class="fila-numero">📋 Fila 3</div>
+            <div class="fila-numero">&#x1f4cb; Fila 3</div>
             <div class="fila-puntos"><span id="pts3">0</span> pts</div>
             <button class="fila-btn" id="btnFila3" onclick="agregarPuntos(3)" disabled>+10 acierto</button>
         </div>
         <div class="fila-card" id="fila4">
-            <div class="fila-numero">📋 Fila 4</div>
+            <div class="fila-numero">&#x1f4cb; Fila 4</div>
             <div class="fila-puntos"><span id="pts4">0</span> pts</div>
             <button class="fila-btn" id="btnFila4" onclick="agregarPuntos(4)" disabled>+10 acierto</button>
         </div>
     </div>
 
-    <!-- Revelar Ganador -->
     <div class="btn-winner-wrapper">
-        <button class="btn-winner" id="btnWinner" onclick="revelarGanador()">🏆 Revelar Ganador</button>
+        <button class="btn-winner" id="btnWinner" onclick="revelarGanador()">&#x1f3c6; Revelar Ganador</button>
     </div>
 </div>
 
-<!-- MODAL -->
 <div class="modal-overlay" id="modalOverlay">
     <div class="modal-box">
-        <div class="modal-icon">🏆</div>
+        <div class="modal-icon">&#x1f3c6;</div>
         <div class="modal-title">Fila Ganadora</div>
         <div class="modal-fila" id="modalFila">Fila 1</div>
         <div class="modal-puntos" id="modalPuntos">0 pts</div>
-        <button class="modal-close" onclick="cerrarModal()">🎉 Cerrar</button>
+        <button class="modal-close" onclick="cerrarModal()">&#x1f389; Cerrar</button>
     </div>
 </div>
 
-<!-- CONFETTI container -->
 <div class="confetti-container" id="confettiContainer"></div>
 
 <script>
-// ─── COLORES VIBRANTES ───
-const COLORES = [
-    '#FF1493', '#00BFFF', '#FFD700', '#32CD32', '#FF4500',
-    '#9370DB', '#FF6347', '#00FA9A', '#FF69B4', '#1E90FF',
-    '#FF0000', '#00FF7F', '#FF8C00', '#BA55D3', '#48D1CC',
-    '#FF6B6B', '#4ECDC4', '#FFE66D', '#A8E6CF', '#DDA0DD',
-    '#7B68EE', '#FF7F50', '#00CED1', '#FFDAB9'
+var COLORES = [
+    '#FF1493','#00BFFF','#FFD700','#32CD32','#FF4500',
+    '#9370DB','#FF6347','#00FA9A','#FF69B4','#1E90FF',
+    '#FF0000','#00FF7F','#FF8C00','#BA55D3','#48D1CC',
+    '#FF6B6B','#4ECDC4','#FFE66D','#A8E6CF','#DDA0DD',
+    '#7B68EE','#FF7F50','#00CED1','#FFDAB9'
 ];
 
 function colorearLetras(texto) {
-    return texto.split('').map(ch => {
+    return texto.split('').map(function(ch) {
         if (ch === ' ' || ch === '') return ' ';
-        const c = COLORES[Math.floor(Math.random() * COLORES.length)];
-        return `<span style="color:${c};font-weight:800">${ch}</span>`;
+        var c = COLORES[Math.floor(Math.random() * COLORES.length)];
+        return '<span style="color:' + c + ';font-weight:800">' + ch + '</span>';
     }).join('');
 }
 
-// ─── DATOS ───
-const preguntas = [
-    {
-        parte1: "¿Quién es el",
-        parte2: "fundador de",
-        parte3: "Morena?",
-        pregunta: "¿Quién es el fundador de Morena?",
-        respuesta: "Andrés Manuel López Obrador"
-    },
-    {
-        parte1: "¿En qué año",
-        parte2: "nació",
-        parte3: "Morena?",
-        pregunta: "¿En qué año nació Morena?",
-        respuesta: "2014"
-    },
-    {
-        parte1: "¿Quién",
-        parte2: "apoyó a",
-        parte3: "Morena?",
-        pregunta: "¿Quién apoyó a Morena?",
-        respuesta: "Jóvenes, adultos mayores y personas que quieran un cambio político"
-    },
-    {
-        parte1: "¿Quién es la",
-        parte2: "presidenta actual",
-        parte3: "de México?",
-        pregunta: "¿Quién es la presidenta actual de México?",
-        respuesta: "Claudia Sheinbaum"
-    },
-    {
-        parte1: "¿Con qué partido",
-        parte2: "formó alianza",
-        parte3: "Morena?",
-        pregunta: "¿Con qué partido formó alianza Morena?",
-        respuesta: "Partido del Trabajo (PT), Partido Encuentro Social (PES), Partido Verde (PVEM)"
-    },
-    {
-        parte1: "¿Cuáles son las",
-        parte2: "3 transformaciones",
-        parte3: "históricas de México?",
-        pregunta: "¿Cuáles son las 3 transformaciones históricas de México?",
-        respuesta: "Independencia de México, La Reforma, Revolución Mexicana"
-    },
-    {
-        parte1: "¿Cuáles son los",
-        parte2: "objetivos principales",
-        parte3: "de Morena?",
-        pregunta: "¿Cuáles son los objetivos principales de Morena?",
-        respuesta: "Política social, combate a la corrupción, cambio de régimen"
-    }
+var preguntas = [
+    { parte1:"¿Quién es el",   parte2:"fundador de",  parte3:"Morena?",          pregunta:"¿Quién es el fundador de Morena?",                                   respuesta:"Andrés Manuel López Obrador" },
+    { parte1:"¿En qué año",    parte2:"nació",        parte3:"Morena?",          pregunta:"¿En qué año nació Morena?",                                         respuesta:"2014" },
+    { parte1:"¿Quién",         parte2:"apoyó a",      parte3:"Morena?",          pregunta:"¿Quién apoyó a Morena?",                                           respuesta:"Jóvenes, adultos mayores y personas que quieran un cambio político" },
+    { parte1:"¿Quién es la",   parte2:"presidenta actual", parte3:"de México?",  pregunta:"¿Quién es la presidenta actual de México?",                        respuesta:"Claudia Sheinbaum" },
+    { parte1:"¿Con qué partido", parte2:"formó alianza", parte3:"Morena?",       pregunta:"¿Con qué partido formó alianza Morena?",                            respuesta:"Partido del Trabajo (PT), Partido Encuentro Social (PES), Partido Verde (PVEM)" },
+    { parte1:"¿Cuáles son las", parte2:"3 transformaciones", parte3:"históricas de México?", pregunta:"¿Cuáles son las 3 transformaciones históricas de México?", respuesta:"Independencia de México, La Reforma, Revolución Mexicana" },
+    { parte1:"¿Cuáles son los", parte2:"objetivos principales", parte3:"de Morena?", pregunta:"¿Cuáles son los objetivos principales de Morena?",              respuesta:"Política social, combate a la corrupción, cambio de régimen" }
 ];
 
-// ─── ESTADO ───
-let preguntasUsadas = [];
-let preguntaActual = -1;
-let puntos = [0, 0, 0, 0];
-let preguntasRespondidas = 0;
-let spinning = false;
-let respuestaRevelada = false;
-let preguntaActiva = false;
+var preguntasUsadas = [];
+var preguntaActual = -1;
+var puntos = [0,0,0,0];
+var preguntasRespondidas = 0;
+var spinning = false;
+var respuestaRevelada = false;
+var preguntaActiva = false;
 
-// ─── DOM REFS ───
-const col1text = document.getElementById('col1text');
-const col2text = document.getElementById('col2text');
-const col3text = document.getElementById('col3text');
-const col1 = document.getElementById('col1');
-const col2 = document.getElementById('col2');
-const col3 = document.getElementById('col3');
-const tubeGlow = document.getElementById('tubeGlow');
-const preguntaTexto = document.getElementById('preguntaTexto');
-const preguntaBox = document.getElementById('preguntaBox');
-const respuestaTexto = document.getElementById('respuestaTexto');
-const btnRespuesta = document.getElementById('btnRespuesta');
-const btnGirar = document.getElementById('btnGirar');
-const btnWinner = document.getElementById('btnWinner');
-const contador = document.getElementById('contador');
+var col1text = document.getElementById('col1text');
+var col2text = document.getElementById('col2text');
+var col3text = document.getElementById('col3text');
+var col1 = document.getElementById('col1');
+var col2 = document.getElementById('col2');
+var col3 = document.getElementById('col3');
+var tubeGlow = document.getElementById('tubeGlow');
+var preguntaTexto = document.getElementById('preguntaTexto');
+var preguntaBox = document.getElementById('preguntaBox');
+var respuestaTexto = document.getElementById('respuestaTexto');
+var btnRespuesta = document.getElementById('btnRespuesta');
+var btnGirar = document.getElementById('btnGirar');
+var btnWinner = document.getElementById('btnWinner');
+var contador = document.getElementById('contador');
+var filaBtns = [
+    document.getElementById('btnFila1'),
+    document.getElementById('btnFila2'),
+    document.getElementById('btnFila3'),
+    document.getElementById('btnFila4')
+];
 
 function actualizarContador() {
-    contador.textContent = `${preguntasRespondidas} / ${preguntas.length}`;
-}
-actualizarContador();
-
-function actualizarBotonesFila() {
-    if (respuestaRevelada && preguntaActiva) {
-        // Ya se reveló la respuesta en esta ronda - filas habilitadas
-        for (let i = 1; i <= 4; i++) {
-            document.getElementById(`btnFila${i}`).disabled = false;
-        }
-    } else {
-        for (let i = 1; i <= 4; i++) {
-            document.getElementById(`btnFila${i}`).disabled = true;
-        }
-    }
+    contador.textContent = preguntasRespondidas + ' / ' + preguntas.length;
 }
 
-// ─── GIRAR ───
+function habilitarFilas(valor) {
+    for (var i = 0; i < 4; i++) filaBtns[i].disabled = !valor;
+}
+
 function girar() {
     if (spinning) return;
-    if (preguntasUsadas.length >= preguntas.length) return;
+    if (preguntasUsadas.length >= preguntas.length) {
+        btnGirar.disabled = true;
+        return;
+    }
 
     respuestaRevelada = false;
     preguntaActiva = false;
-    respuestaTexto.textContent = '—';
+    respuestaTexto.textContent = '\u2014';
     respuestaTexto.classList.remove('revealed');
     btnRespuesta.disabled = true;
-    actualizarBotonesFila();
+    habilitarFilas(false);
 
-    let idx;
+    var idx;
+    var intentos = 0;
     do {
         idx = Math.floor(Math.random() * preguntas.length);
-    } while (preguntasUsadas.includes(idx));
+        intentos++;
+    } while (preguntasUsadas.indexOf(idx) !== -1 && intentos < 100);
+
+    if (intentos >= 100) {
+        spinning = false;
+        btnGirar.disabled = false;
+        return;
+    }
+
     preguntasUsadas.push(idx);
     preguntaActual = idx;
     preguntaActiva = true;
 
-    const q = preguntas[idx];
+    var q = preguntas[idx];
 
     spinning = true;
     btnGirar.disabled = true;
     tubeGlow.classList.add('active');
-
-    preguntaTexto.textContent = '🎰 Girando...';
+    preguntaTexto.textContent = '\uD83C\uDFB0 Girando...';
     preguntaTexto.className = 'pregunta-texto';
 
     col1text.classList.remove('final');
     col2text.classList.remove('final');
     col3text.classList.remove('final');
 
-    // Direcciones: orillas → adelante, centro → atrás
     col1text.classList.add('spin-forward');
     col2text.classList.add('spin-backward');
     col3text.classList.add('spin-forward');
@@ -824,34 +754,34 @@ function girar() {
     col2.classList.add('glow-spin');
     col3.classList.add('glow-spin');
 
-    const int1 = setInterval(() => {
-        const r = preguntas[Math.floor(Math.random() * preguntas.length)];
+    var int1 = setInterval(function() {
+        var r = preguntas[Math.floor(Math.random() * preguntas.length)];
         col1text.textContent = r.parte1;
     }, 70);
-    const int2 = setInterval(() => {
-        const r = preguntas[Math.floor(Math.random() * preguntas.length)];
+    var int2 = setInterval(function() {
+        var r = preguntas[Math.floor(Math.random() * preguntas.length)];
         col2text.textContent = r.parte2;
     }, 70);
-    const int3 = setInterval(() => {
-        const r = preguntas[Math.floor(Math.random() * preguntas.length)];
+    var int3 = setInterval(function() {
+        var r = preguntas[Math.floor(Math.random() * preguntas.length)];
         col3text.textContent = r.parte3;
     }, 70);
 
-    setTimeout(() => {
+    setTimeout(function() {
         clearInterval(int1);
         col1text.textContent = q.parte1;
         col1text.classList.remove('spin-forward');
         col1.classList.remove('glow-spin');
     }, 900);
 
-    setTimeout(() => {
+    setTimeout(function() {
         clearInterval(int2);
         col2text.textContent = q.parte2;
         col2text.classList.remove('spin-backward');
         col2.classList.remove('glow-spin');
     }, 1500);
 
-    setTimeout(() => {
+    setTimeout(function() {
         clearInterval(int3);
         col3text.textContent = q.parte3;
         col3text.classList.remove('spin-forward');
@@ -867,93 +797,80 @@ function girar() {
 
         spinning = false;
         btnGirar.disabled = false;
-        actualizarBotonesFila();
+        habilitarFilas(false);
     }, 2100);
 }
 
-// ─── MOSTRAR RESPUESTA ───
 function mostrarRespuesta() {
     if (preguntaActual < 0) return;
     if (respuestaRevelada) return;
+
     respuestaRevelada = true;
-    const q = preguntas[preguntaActual];
-    respuestaTexto.textContent = '✅ ' + q.respuesta;
-    respuestaTexto.classList.add('revealed');
     btnRespuesta.disabled = true;
+    preguntaTexto.textContent = preguntas[preguntaActual].pregunta;
+
+    respuestaTexto.textContent = '\u2705 ' + preguntas[preguntaActual].respuesta;
+    respuestaTexto.classList.add('revealed');
+    preguntaBox.classList.remove('active');
+
     preguntasRespondidas++;
     actualizarContador();
-    actualizarBotonesFila();
-
-    for (let i = 1; i <= 4; i++) {
-        if (preguntasRespondidas >= preguntas.length) break;
-        document.getElementById(`btnFila${i}`).disabled = false;
-    }
 
     if (preguntasRespondidas >= preguntas.length) {
         btnGirar.disabled = true;
         btnWinner.style.display = 'inline-block';
-        for (let i = 1; i <= 4; i++) {
-            document.getElementById(`btnFila${i}`).disabled = true;
-        }
     }
+    habilitarFilas(true);
 }
 
-// ─── AGREGAR PUNTOS ───
 function agregarPuntos(fila) {
     if (!respuestaRevelada) return;
     if (preguntaActual < 0) return;
-    puntos[fila - 1] += 10;
-    document.getElementById(`pts${fila}`).textContent = puntos[fila - 1];
 
-    const card = document.getElementById(`fila${fila}`);
+    puntos[fila - 1] += 10;
+    document.getElementById('pts' + fila).textContent = puntos[fila - 1];
+
+    var card = document.getElementById('fila' + fila);
     card.style.borderColor = '#ffd700';
     card.style.background = '#fffce8';
     card.style.transform = 'scale(1.05)';
-    setTimeout(() => {
+    setTimeout(function() {
         card.style.borderColor = '#e0d5c5';
         card.style.background = '#fff';
         card.style.transform = 'scale(1)';
     }, 500);
 
-    for (let i = 1; i <= 4; i++) {
-        document.getElementById(`btnFila${i}`).disabled = true;
-    }
+    habilitarFilas(false);
 }
 
-// ─── REVELAR GANADOR ───
 function revelarGanador() {
     if (preguntasRespondidas < preguntas.length) return;
 
-    const maxPts = Math.max(...puntos);
-    const ganadoras = [];
-    for (let i = 0; i < 4; i++) {
+    var maxPts = Math.max.apply(null, puntos);
+    var ganadoras = [];
+    for (var i = 0; i < 4; i++) {
         if (puntos[i] === maxPts) ganadoras.push(i + 1);
     }
+    var ganadora = ganadoras[Math.floor(Math.random() * ganadoras.length)];
 
-    const ganadora = ganadoras[Math.floor(Math.random() * ganadoras.length)];
-
-    document.getElementById('modalFila').textContent = `🎯 Fila ${ganadora}`;
-    document.getElementById('modalPuntos').textContent = `${puntos[ganadora - 1]} puntos`;
+    document.getElementById('modalFila').textContent = '\uD83C\uDFAF Fila ' + ganadora;
+    document.getElementById('modalPuntos').textContent = puntos[ganadora - 1] + ' puntos';
     document.getElementById('modalOverlay').classList.add('show');
 
     lanzarConfetti();
-
-    btnWinner.textContent = '🏆 ¡Ganador Revelado!';
+    btnWinner.textContent = '\uD83C\uDFC6 \u00a1Ganador Revelado!';
     btnWinner.disabled = true;
 }
 
-// ─── MODAL ───
 function cerrarModal() {
     document.getElementById('modalOverlay').classList.remove('show');
 }
 
-// ─── CONFETTI ───
 function lanzarConfetti() {
-    const container = document.getElementById('confettiContainer');
-    const colors = ['#ce1126', '#006341', '#ffd700', '#ffffff', '#FF1493', '#00BFFF', '#32CD32', '#FF4500'];
-
-    for (let i = 0; i < 100; i++) {
-        const piece = document.createElement('div');
+    var container = document.getElementById('confettiContainer');
+    var colors = ['#ce1126','#006341','#ffd700','#ffffff','#FF1493','#00BFFF','#32CD32','#FF4500'];
+    for (var i = 0; i < 100; i++) {
+        var piece = document.createElement('div');
         piece.className = 'confetti-piece';
         piece.style.left = Math.random() * 100 + '%';
         piece.style.background = colors[Math.floor(Math.random() * colors.length)];
@@ -964,44 +881,38 @@ function lanzarConfetti() {
         piece.style.animationDelay = (Math.random() * 2) + 's';
         container.appendChild(piece);
     }
-
-    setTimeout(() => {
-        container.innerHTML = '';
-    }, 5000);
+    setTimeout(function() { container.innerHTML = ''; }, 5000);
 }
 
-// ─── GENERAR SIGNOS DE PREGUNTA VOLADORES ───
-(function generarQmarks() {
-    const bg = document.getElementById('qmarkBg');
-    const simbolos = ['❓', '❔', '?', '⁇'];
-    const coloresQ = ['#FF6B6B', '#4ECDC4', '#FFE66D', '#FF69B4', '#00BFFF', '#9370DB', '#ffd700', '#32CD32'];
+// Inicialización
+(function init() {
+    actualizarContador();
 
-    for (let i = 0; i < 25; i++) {
-        const el = document.createElement('div');
+    // Título colorido
+    var h1 = document.getElementById('mainTitle');
+    h1.innerHTML = colorearLetras(h1.textContent);
+
+    // Barra de colores
+    var bar = document.getElementById('colorBar');
+    var coloresBar = ['#FF1493','#FFD700','#32CD32','#00BFFF','#FF4500','#9370DB','#FF6347','#00FA9A','#FF69B4','#1E90FF'];
+    bar.innerHTML = coloresBar.map(function(c) { return '<span style="background:' + c + '"></span>'; }).join('');
+
+    // Signos de pregunta voladores GIGANTES
+    var bg = document.getElementById('qmarkBg');
+    var simbolos = ['\u2753', '\u2754', '?', '\u2047'];
+    var coloresQ = ['#FF6B6B','#4ECDC4','#FFE66D','#FF69B4','#00BFFF','#9370DB','#ffd700','#32CD32'];
+    for (var i = 0; i < 25; i++) {
+        var el = document.createElement('div');
         el.className = 'qmark';
         el.textContent = simbolos[Math.floor(Math.random() * simbolos.length)];
         el.style.left = Math.random() * 100 + '%';
-        el.style.bottom = '-10%';
-        el.style.fontSize = (Math.random() * 130 + 70) + 'px';
+        el.style.bottom = '-5%';
+        el.style.fontSize = (Math.random() * 140 + 70) + 'px';
         el.style.color = coloresQ[Math.floor(Math.random() * coloresQ.length)];
-        el.style.animationDuration = (Math.random() * 18 + 14) + 's';
-        el.style.animationDelay = (Math.random() * 12) + 's';
+        el.style.animationDuration = (Math.random() * 20 + 16) + 's';
+        el.style.animationDelay = (Math.random() * 10) + 's';
         bg.appendChild(el);
     }
-})();
-
-// ─── COLOREAR TÍTULO ───
-(function colorearTitulo() {
-    const h1 = document.getElementById('mainTitle');
-    const original = h1.textContent;
-    h1.innerHTML = colorearLetras(original);
-})();
-
-// ─── BARRA DE COLORES ───
-(function barraColores() {
-    const bar = document.getElementById('colorBar');
-    const cols = ['#FF1493','#FFD700','#32CD32','#00BFFF','#FF4500','#9370DB','#FF6347','#00FA9A','#FF69B4','#1E90FF'];
-    bar.innerHTML = cols.map(c => `<span style="background:${c}"></span>`).join('');
 })();
 </script>
 </body>
